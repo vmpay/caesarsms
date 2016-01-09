@@ -1,11 +1,35 @@
 package com.example.andrew.smssender;
 
+/*
+    EncryptedSmsSender - is an application for encrypting/decrypting text
+	according to "Caesar" cipher. The application also can send the text
+	via SMS.
+    Copyright (C) 2016  Andrii Iarkovoi
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+    You can also contact me via e-mail vereszp@gmail.com
+ */
+
 import android.app.Activity;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -88,7 +112,29 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Log.d(TAG, "CaseDefault");
                 break;
         }
+    }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // TODO Auto-generated method stub
+        menu.add(0, 1, 0, "About...");
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // TODO Auto-generated method stub
+        switch (String.valueOf(item.getItemId()))
+        {
+            case "1":
+                Intent aboutIntent = new Intent(this, AboutActivity.class);
+                startActivity(aboutIntent);
+                break;
+            default:
+                //etOutput.setText("" + String.valueOf(item.getItemId()));
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     public static String crypt(String iString, int ishift) {
@@ -106,7 +152,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     c -= 95;
                 }
                 newString.setCharAt(i, c);
-
             }
         }
         return newString.toString();

@@ -1,4 +1,5 @@
 <resources>
-    <string name="app_name">EncryptedSmsSender</string>
+    <string name="app_name">EncryptedSmsSender v1.1</string>
     <string name="welcome">Welcome! Choose the action.</string>
+    <string name="about"><![CDATA[\tEncryptedSmsSender - is an application for encrypting/decrypting text according to \"Caesar\" cipher. The application also can send the text via SMS.\n\nCopyright (C) 2016  Andrii Iarkovoi\n\n\tThis program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.\n\n\tThis program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.\n\n\tYou should have received a copy of the GNU General Public License along with this program. If not, see <http://www.gnu.org/licenses/>.\n\n\tYou can also contact me via e-mail vereszp@gmail.com]]></string>
 </resources>
