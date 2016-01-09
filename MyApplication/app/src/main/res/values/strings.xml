@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">EncryptedSmsSender</string>
+    <string name="welcome">Welcome! Choose the action.</string>
+</resources>
