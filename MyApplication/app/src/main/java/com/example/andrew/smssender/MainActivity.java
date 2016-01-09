@@ -26,8 +26,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.TextUtils;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -35,32 +33,27 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
-    RadioButton rbnEncrypt, rbnDecrypt;
-    Button btnInvert, btnProcess, btnSend;
-    EditText etInput, etOutput, etKey;
-    private static final String TAG = "mylog";
-    String input, output;
-    int shift = 1;
+    private RadioButton rbnEncrypt;
+    private EditText etInput, etKey;
+    private TextView etOutput;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Log.d(TAG, "onCreate()");
-
-        rbnDecrypt = (RadioButton) findViewById(R.id.rbnDecrypt);
         rbnEncrypt = (RadioButton) findViewById(R.id.rbnEncrypt);
         rbnEncrypt.toggle();
-        btnInvert = (Button) findViewById(R.id.btnInvert);
-        btnProcess = (Button) findViewById(R.id.btnProcess);
-        btnSend = (Button) findViewById(R.id.btnSend);
+        Button btnInvert = (Button) findViewById(R.id.btnInvert);
+        Button btnProcess = (Button) findViewById(R.id.btnProcess);
+        Button btnSend = (Button) findViewById(R.id.btnSend);
         etInput = (EditText) findViewById(R.id.etInput);
-        etOutput = (EditText) findViewById(R.id.etOutpuy);
+        etOutput = (TextView) findViewById(R.id.etOutput);
         etKey = (EditText) findViewById(R.id.etKey);
 
         btnInvert.setOnClickListener(this);
@@ -74,26 +67,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         switch (v.getId())
         {
             case R.id.btnInvert:
-                Log.d(TAG, "btnInvert");
-                output = etOutput.getText().toString();
+                String output = etOutput.getText().toString();
                 etInput.setText(output);
                 etOutput.setText("");
                 break;
             case R.id.btnProcess:
-                Log.d(TAG, "btnProcess");
                 hideSoftKeyboard(this);
-                if (TextUtils.isEmpty(etKey.getText().toString()))
+                if (etKey.getText().toString().isEmpty())
                 {
                     Toast.makeText(this, "Fill the Key field", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                if (!TextUtils.isDigitsOnly(etKey.getText().toString()))
-                {
-                    Toast.makeText(this, "The Key must be a digit", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                shift = Integer.parseInt(etKey.getText().toString());
-                input = etInput.getText().toString();
+                int shift = Integer.parseInt(etKey.getText().toString());
+                String input = etInput.getText().toString();
                 if (rbnEncrypt.isChecked())
                     output = crypt(input, shift);
                 else
@@ -101,7 +87,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 etOutput.setText(output);
                 break;
             case R.id.btnSend:
-                Log.d(TAG, "btnSend");
                 Intent smsIntent = new Intent(android.content.Intent.ACTION_VIEW);
                 smsIntent.setType("vnd.android-dir/mms-sms");
                 smsIntent.putExtra("address","");
@@ -109,7 +94,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 startActivity(smsIntent);
                 break;
             default:
-                Log.d(TAG, "CaseDefault");
                 break;
         }
     }
@@ -131,14 +115,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 startActivity(aboutIntent);
                 break;
             default:
-                //etOutput.setText("" + String.valueOf(item.getItemId()));
                 break;
         }
         return super.onOptionsItemSelected(item);
     }
 
-    public static String crypt(String iString, int ishift) {
-        StringBuffer newString = new StringBuffer (iString);
+    private static String crypt(String iString, int ishift) {
+        StringBuilder newString = new StringBuilder(iString);
         int shift = ishift % 95;
         char c;
         for (int i = 0; i < newString.length(); ++i)
@@ -157,7 +140,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         return newString.toString();
     }
 
-    public static void hideSoftKeyboard(Activity activity) {
+    private static void hideSoftKeyboard(Activity activity) {
         InputMethodManager inputMethodManager = (InputMethodManager)  activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
         inputMethodManager.hideSoftInputFromWindow(activity.getCurrentFocus().getWindowToken(), 0);
     }
